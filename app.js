@@ -20,10 +20,13 @@ angular.module('chatApp', [])
             }
         };
 
-
         chat.saveMessages = function() {
             $window.localStorage.setItem('messages', JSON.stringify(chat.messages));
         };
 
+        chat.loadMessages = function() {
+            chat.messages = JSON.parse($window.localStorage.getItem('messages')) || [];
+        };
 
+        chat.loadMessages(); //load message on render
     });
