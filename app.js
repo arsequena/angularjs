@@ -15,8 +15,14 @@ angular.module('chatApp', [])
         chat.sendMessage = function() {
             if (chat.newMessage) {
                 chat.messages.push({ ts:Date.now(), username: chat.username, text: chat.newMessage });
+                chat.saveMessages();
                 chat.newMessage = '';
             }
+        };
+
+
+        chat.saveMessages = function() {
+            $window.localStorage.setItem('messages', JSON.stringify(chat.messages));
         };
 
 
