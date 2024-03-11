@@ -5,6 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat App</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .messages-panel {
+            margin-bottom: 10px;
+            height: 500px;
+            overflow: auto;
+            display: flex;
+            flex-direction: column-reverse;
+        }
+
+        .message-box {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .current-user-message {
+            background-color: #dcf8c6;
+            text-align: right;
+        }
+        .other-user-message {
+            background-color: #f8f9fa;
+            text-align: left;
+        }
+        .avatar {
+            width: 10%;
+            height: 10%;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+    </style>
 </head>
 <body>
     <div class="container" ng-controller="ChatController as chat">
@@ -16,7 +45,26 @@
             </div>
         </div>
         <div class="row" ng-if="chat.username">
-            <div class="row" style="width: 100%; justify-content: center; margin-left: 5px;">
+            <div class="row justify-content-center">
+                <div class="col-6 messages-panel">
+                    <!-- <div class="messages" ng-repeat="message in chat.messages | limitTo: chat.messages.length : chat.viewLimit track by $index"> -->
+                    <div class="messages" ng-repeat="message in chat.messages | limitTo: chat.pageSize track by $index">
+                        <div class="message-box other-user-message" ng-if="chat.username !== message.username">
+                            <img class="avatar" src="https://i.stack.imgur.com/l60Hf.png">
+                            <p><strong>{{ message.username }}</strong>: {{ message.text }}</p>
+                        </div>
+    
+                        <div class="message-box current-user-message" ng-if="chat.username === message.username">
+                            <img class="avatar" src="https://i.stack.imgur.com/l60Hf.png">
+                            <p><strong>{{ message.username }}</strong>: {{ message.text }}</p>
+                        </div>
+                    </div>
+                    <button class="btn btn-secondary mt-2" ng-click="chat.loadMoreMessages()" ng-if="chat.viewLimit != 0">Load More Messages</button>
+                </div>
+            </div>
+            <div class="row" style="width: 100%;
+            justify-content: center;
+            margin-left: 5px;">
                 <div class="col-6" >
                     <input type="text" class="form-control" ng-model="chat.newMessage" placeholder="Enter your message" style="float: left;width: 70%;">
                     <button class="btn btn-primary mt-2" ng-click="chat.sendMessage()" style="width: 20%; margin: 0px 0px 0px 5% !important;">Send</button>
