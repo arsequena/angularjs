@@ -8,7 +8,13 @@
 </head>
 <body>
     <div class="container" ng-controller="ChatController as chat">
-
+        <div class="row justify-content-center" ng-if="!chat.username">
+            <div class="col-6">
+                <h2>Enter your name:</h2>
+                <input type="text" class="form-control" ng-model="chat.newUsername" placeholder="Enter your name">
+                <button class="btn btn-primary mt-2" ng-click="chat.setUsername()">Set Username</button>
+            </div>
+        </div>
 
     </div>
     <script src="app.js"></script>
